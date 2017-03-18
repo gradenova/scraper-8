@@ -25,7 +25,7 @@ app.register_blueprint(rq_dashboard.blueprint, url_prefix='/monitor')
 
 @app.route('/')
 def hello():
-    return 'Hello World!'
+    return 'Nothing to see here. :)'
 
 
 if __name__ == '__main__':
