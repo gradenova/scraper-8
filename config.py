@@ -8,7 +8,7 @@ class Config(object):
     CSRF_ENABLED = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = 'this-really-needs-to-be-changed'
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///db.sqlite3')
     REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')
     SCRAPER_BASE_URL = (
         'http://www.mybidmatch.com/go?'
