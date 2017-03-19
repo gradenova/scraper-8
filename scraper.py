@@ -5,7 +5,8 @@ from xml.sax.saxutils import unescape
 import requests
 import bs4
 
-from app import app
+from app import app, db
+from models import Result
 
 
 base_scraper_url = app.config.get('SCRAPER_BASE_URL')
@@ -78,6 +79,9 @@ def scraper():
 
         article = get_article(doc.get('url_2'))
         if article:
-            print(article)
+            doc['description'] = article.text
 
-    return base_dict
+        result = Result(**doc)
+
+        db.sesssion.add(result)
+        db.sesssion.commit()
