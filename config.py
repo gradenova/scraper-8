@@ -1,4 +1,8 @@
 import os
+from dateutil.tz import gettz
+from dateutil.parser import parse
+
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -15,7 +19,10 @@ class Config(object):
     QUERY_URL = '/go?sub=7F604A76-0EF9-48F1-A83F-ABC17511B6FC'
     SCRAPER_BASE_URL = BASE_URL + QUERY_URL
 
-    RUN_AT = os.getenv('RUN_AT', '17:00 EST')
+    TIME_ZONE = gettz(os.getenv('TIME_ZONE', 'America/Atlanta'))
+    RUN_AT = parse(os.getenv('RUN_AT', '17:00'), tzinfos=TIME_ZONE)
+
+    RQ_POLL_INTERVAL = 5
 
 
 class ProductionConfig(Config):
