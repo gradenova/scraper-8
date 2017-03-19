@@ -25,24 +25,20 @@ class Result(db.Model):
     def __init__(self, *args, **kwargs):
 
         self.url = kwargs.get('url')
-        self.item = kwargs.get('item')
         self.agency = kwargs.get('agency')
         self.fsg = kwargs.get('fsg')
         self.source = kwargs.get('source')
-
         self.title = kwargs.get('title')
         self.keywords = kwargs.get('keywords')
-
         self.url_2 = kwargs.get('url_2')
-        self.naics_code = kwargs.get('naics_code')
+        self.description = kwargs.get('description')
 
+        self.naics_code = kwargs.get('')
+        self.item = kwargs.get('item')
         self.psc_code = kwargs.get('psc_code')
         self.contact_info = kwargs.get('contact_info')
-
         self.place_of_performance = kwargs.get('place_of_performance')
         self.link_to_solicitation = kwargs.get('link_of_solicitation')
-
-        self.description = kwargs.get('description')
 
         self.date = kwargs.get('date')
 
