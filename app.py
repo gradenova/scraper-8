@@ -4,15 +4,13 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 import rq_dashboard
-from rq import Queue
-
-from worker import conn
+from flask_rq2 import RQ
 from utils import add_basic_auth
 
 app = Flask(__name__)
 
 db = SQLAlchemy(app)
-q = Queue(connection=conn)
+rq = RQ(app)
 
 app.config.from_object(os.getenv('APP_SETTINGS', 'config.DevelopmentConfig'))
 
