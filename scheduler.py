@@ -2,7 +2,7 @@ from rq_scheduler import Scheduler
 from datetime import datetime, timedelta
 
 
-from app import app
+from app import app, rq
 from scraper import scraper
 from worker import conn
 
@@ -13,14 +13,17 @@ TIME_ZONE = app.config.get('TIME_ZONE')
 scheduler = Scheduler(connection=conn)
 
 
+@rq.job('low', timeout=180, results_ttl=60 * 60, ttl=60 * 60 * 24)
 def run():
     print('Job is scheduled')
 
 
+@rq.job
 def hello():
     print('Hello world, sample tasks.')
 
 
+hello.schedule(timedelta(seconds=60))
 scheduler.schedule(
     scheduled_time=RUN_AT,
     func=scraper,
