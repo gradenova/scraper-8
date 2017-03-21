@@ -9,7 +9,7 @@ from rq_scheduler import Scheduler
 
 from scraper import scraper
 
-if os.getenv('DEBUG'):
+if not os.getenv('DEBUG'):
     from rq import Worker
 else:
     from rq.worker import HerokuWorker as Worker
@@ -45,7 +45,9 @@ if __name__ == '__main__':
         description='Scraper Job'
     )
 
+    scheduler.run()
+
     with Connection(conn):
         worker = Worker(map(Queue, listen))
-        # scheduler.run()
-        # worker.work()
+        scheduler.run()
+        worker.work()
