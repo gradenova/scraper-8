@@ -2,7 +2,7 @@ from app import db
 
 
 class Result(db.Model):
-    __tablename__ = 'results'
+    __tablename__ = 'dod-open-solicitations'
 
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.String(255))
@@ -18,6 +18,9 @@ class Result(db.Model):
 
     contract_specialist = db.Column(db.String(255))
     contract_officer = db.Column(db.String(255))
+
+    fsg_description = db.Column(db.String(255))
+    set_side = db.Column(db.String(255))
 
     naics_code = db.Column(db.String(255))
     psc_code = db.Column(db.String(255))
@@ -39,7 +42,14 @@ class Result(db.Model):
         self.url_2 = kwargs.get('url_2')
         self.description = kwargs.get('description')
 
-        self.naics_code = kwargs.get('')
+        self.email = kwargs.get('email')
+        self.phone = kwargs.get('phone')
+        self.contract_specialist = kwargs.get('contract_specialist')
+        self.contract_officer = kwargs.get('contract_officer')
+        self.fsg_description = kwargs.get('fsg_description')
+        self.set_side = kwargs.get('set_side')
+
+        self.naics_code = kwargs.get('naics_code')
         self.item = kwargs.get('item')
         self.psc_code = kwargs.get('psc_code')
         self.contact_info = kwargs.get('contact_info')
