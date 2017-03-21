@@ -13,6 +13,12 @@ class Result(db.Model):
     keywords = db.Column(db.String(255))
     url_2 = db.Column(db.String(255))
 
+    email = db.Column(db.String(255))
+    phone = db.Column(db.String(255))
+
+    contract_specialist = db.Column(db.String(255))
+    contract_officer = db.Column(db.String(255))
+
     naics_code = db.Column(db.String(255))
     psc_code = db.Column(db.String(255))
     contact_info = db.Column(db.String(255))
