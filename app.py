@@ -8,9 +8,9 @@ from utils import add_basic_auth
 
 app = Flask(__name__)
 
-db = SQLAlchemy(app)
-
 app.config.from_object(os.getenv('APP_SETTINGS', 'config.DevelopmentConfig'))
+
+db = SQLAlchemy(app)
 
 if not app.config.get('TESTING'):
     add_basic_auth(rq_dashboard.blueprint,
