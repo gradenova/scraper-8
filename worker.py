@@ -1,6 +1,4 @@
 import os
-from dateutil.tz import gettz
-from dateutil.parser import parse
 
 import redis
 from rq import Queue, Connection
@@ -12,9 +10,6 @@ if not os.getenv('DEBUG'):
 else:
     from rq.worker import HerokuWorker as Worker
 
-
-TIME_ZONE = gettz(os.getenv('TIME_ZONE', 'America/Atlanta'))
-RUN_AT = parse(os.getenv('RUN_AT', '17:15'), tzinfos=TIME_ZONE)
 
 listen = ['default']
 
