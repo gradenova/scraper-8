@@ -2,7 +2,7 @@ from app import db
 
 
 class Result(db.Model):
-    __tablename__ = 'dod-open-solicitations'
+    __tablename__ = 'dod_open_solicitations'
 
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.String(255))
