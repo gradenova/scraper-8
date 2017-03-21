@@ -45,9 +45,16 @@ if __name__ == '__main__':
         description='Scraper Job'
     )
 
-    scheduler.run()
+    # if scheduler.connection.exists(scheduler.scheduler_key) and \
+    #         not scheduler.connection.hexists(
+    #             scheduler.scheduler_key, 'death'):
+
+    #     scheduler.remove_lock()
+    #     scheduler.register_death()
 
     with Connection(conn):
+
         worker = Worker(map(Queue, listen))
-        scheduler.run()
         worker.work()
+
+        scheduler.run()
