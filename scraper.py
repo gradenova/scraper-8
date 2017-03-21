@@ -79,11 +79,11 @@ def scraper():
 
         article = get_article(doc.get('url_2'))
         if article:
-            doc['description'] = article.text
+            doc['description'] = article.content
 
         result = Result(**doc)
 
-        db.sesssion.add(result)
-        db.sesssion.commit()
+        db.session.add(result)
+        db.session.commit()
 
-    return None
+    return base_rows
