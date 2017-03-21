@@ -27,7 +27,7 @@ if not redis_url:
 
 conn = redis.from_url(redis_url)
 
-scheduler = Scheduler(connection=conn)
+scheduler = Scheduler(connection=conn, interval=86400)
 
 
 def test():
@@ -45,8 +45,7 @@ if __name__ == '__main__':
         description='Scraper Job'
     )
 
-    scheduler.run()
-
     with Connection(conn):
         worker = Worker(map(Queue, listen))
         worker.work()
+        scheduler.run()
