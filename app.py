@@ -19,10 +19,29 @@ if not app.config.get('TESTING'):
 app.register_blueprint(rq_dashboard.blueprint, url_prefix='/monitor')
 
 
+def test():
+    print('Hello world, sample tasks.')
+
+
 @app.route('/')
 def hello():
     return 'Nothing to see here. :)'
 
 
 if __name__ == '__main__':
+    from worker import scheduler
+    from datetime import timedelta, datetime
+
+    from scraper import scraper
+
+    scheduler.enqueue_in(timedelta(seconds=5), test)
+
+    scheduler.schedule(
+        scheduled_time=datetime.utcnow(),
+        func=scraper,
+        interval=86400,
+        description='Scraper Job'
+    )
+
+    scheduler.run()
     app.run()
