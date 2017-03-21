@@ -13,8 +13,6 @@ base_scraper_url = app.config.get('SCRAPER_BASE_URL')
 base_url = app.config.get('BASE_URL')
 base_dict = {}
 
-print('value', '...')
-
 
 def clean_html(html):
     return ' '.join(re.findall(r'\S+', html))
