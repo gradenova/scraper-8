@@ -42,7 +42,7 @@ def get_article(url):
         content = clean_html(page.content)
         tree = bs4.BeautifulSoup(content, 'lxml')
 
-        return tree.body
+        return tree
 
     return None
 
@@ -78,8 +78,9 @@ def scraper():
         }
 
         article = get_article(doc.get('url_2'))
+
         if article:
-            doc['description'] = article.content
+            doc['description'] = article
 
         result = Result(**doc)
 
