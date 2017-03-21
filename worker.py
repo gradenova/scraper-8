@@ -1,7 +1,7 @@
 import os
 from dateutil.tz import gettz
 from dateutil.parser import parse
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 import redis
 from rq import Queue, Connection
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     scheduler.enqueue_in(timedelta(seconds=5), test)
 
     scheduler.schedule(
-        scheduled_time=RUN_AT,
+        scheduled_time=datetime.utcnow(),
         func=scraper,
         interval=86400,
         description='Scraper Job'
