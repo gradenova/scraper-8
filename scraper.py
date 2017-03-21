@@ -85,3 +85,5 @@ def scraper():
 
         db.sesssion.add(result)
         db.sesssion.commit()
+
+    return None
