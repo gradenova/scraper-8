@@ -35,7 +35,7 @@ if __name__ == '__main__':
     from scraper import scraper
 
     scheduler.enqueue_in(timedelta(seconds=5), test)
-
+    RUN_AT = app.config.get('RUN_AT')
     scheduler.schedule(
         scheduled_time=datetime.utcnow(),
         func=scraper,
