@@ -38,12 +38,13 @@ def get_rows(url):
 def get_article(url):
 
     page = requests.get(url)
+
     if page.ok:
         content = clean_html(page.content)
         tree = bs4.BeautifulSoup(content, 'lxml')
 
         return tree
-
+    print(dir(tree), 'skjskjksj')
     return None
 
 
@@ -80,7 +81,7 @@ def scraper():
         article = get_article(doc.get('url_2'))
 
         if article:
-            doc['description'] = article
+            doc['description'] = article.string
 
         result = Result(**doc)
 
