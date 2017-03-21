@@ -1,15 +1,13 @@
 import os
 from dateutil.tz import gettz
 from dateutil.parser import parse
-from datetime import timedelta, datetime
 
 import redis
 from rq import Queue, Connection
 from rq_scheduler import Scheduler
 
-from scraper import scraper
 
-if os.getenv('DEBUG'):
+if not os.getenv('DEBUG'):
     from rq import Worker
 else:
     from rq.worker import HerokuWorker as Worker
@@ -30,22 +28,8 @@ conn = redis.from_url(redis_url)
 scheduler = Scheduler(connection=conn, interval=86400)
 
 
-def test():
-    print('Hello world, sample tasks.')
-
-
 if __name__ == '__main__':
 
-    scheduler.enqueue_in(timedelta(seconds=5), test)
-
-    scheduler.schedule(
-        scheduled_time=datetime.utcnow(),
-        func=scraper,
-        interval=86400,
-        description='Scraper Job'
-    )
-
     with Connection(conn):
-
         worker = Worker(map(Queue, listen))
         worker.work()
