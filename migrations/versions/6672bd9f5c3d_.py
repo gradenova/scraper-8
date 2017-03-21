@@ -19,7 +19,7 @@ depends_on = None
 def upgrade():
 
     op.create_table(
-        'dod-open-solicitations',
+        'dod_open_solicitations',
         sa.Column('id', sa.Integer(), nullable=False),
         sa.Column('url', sa.String(255), nullable=False),
         sa.Column('agency', sa.String(255), nullable=True),
