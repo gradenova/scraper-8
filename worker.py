@@ -1,4 +1,5 @@
 import os
+from time import time
 from dateutil.tz import gettz
 from dateutil.parser import parse
 from datetime import timedelta
@@ -39,9 +40,10 @@ if __name__ == '__main__':
     scheduler.enqueue_in(timedelta(seconds=5), test)
 
     scheduler.schedule(
-        scheduled_time=RUN_AT,
+        scheduled_time=time(),
         func=scraper,
-        interval=86400
+        interval=86400,
+        description='Scraper Job'
     )
 
     scheduler.run()
