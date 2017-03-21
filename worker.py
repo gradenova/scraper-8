@@ -9,7 +9,7 @@ from rq_scheduler import Scheduler
 
 from scraper import scraper
 
-if not os.getenv('DEBUG'):
+if os.getenv('DEBUG'):
     from rq import Worker
 else:
     from rq.worker import HerokuWorker as Worker
