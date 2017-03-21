@@ -45,12 +45,12 @@ if __name__ == '__main__':
         description='Scraper Job'
     )
 
-    # if scheduler.connection.exists(scheduler.scheduler_key) and \
-    #         not scheduler.connection.hexists(
-    #             scheduler.scheduler_key, 'death'):
+    if scheduler.connection.exists(scheduler.scheduler_key) and \
+            not scheduler.connection.hexists(
+                scheduler.scheduler_key, 'death'):
 
-    #     scheduler.remove_lock()
-    #     scheduler.register_death()
+        scheduler.remove_lock()
+        scheduler.register_death()
 
     with Connection(conn):
 
