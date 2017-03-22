@@ -53,12 +53,14 @@ def get_article(url):
         content = clean_html(page.content)
         tree = bs4.BeautifulSoup(content, 'lxml')
 
-        return str(tree.html)
+        return tree.html
     return None
 
 
 @celery.task
 def scraper():
+
+    print('About to start the scraper.')
 
     base_rows = get_rows(base_scraper_url)
     base_for_today = base_rows[0]
@@ -98,6 +100,7 @@ def scraper():
         db.session.add(result)
         db.session.commit()
 
+    print('Scraper completed execution')
     return base_rows
 
 
