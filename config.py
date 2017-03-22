@@ -1,6 +1,6 @@
 import os
 from dateutil.tz import gettz
-from dateutil.parser import parse
+from celery.schedules import crontab
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -20,9 +20,26 @@ class Config(object):
     SCRAPER_BASE_URL = BASE_URL + QUERY_URL
 
     TIME_ZONE = gettz(os.getenv('TIME_ZONE', 'America/Atlanta'))
-    RUN_AT = parse(os.getenv('RUN_AT', '17:15'), tzinfos=TIME_ZONE)
+    RUN_AT = os.getenv('RUN_AT', '17:15')
 
     RQ_POLL_INTERVAL = 5
+
+    HOUR, MINUTE = RUN_AT.split(':')
+
+    CELERY_BROKER_URL = REDIS_URL
+    CELERY_RESULT_BACKEND = REDIS_URL
+    CELERY_TIMEZONE = TIME_ZONE
+
+    CELERYBEAT_SCHEDULE = {
+        'scrape-every-evening': {
+            'task': 'scraper.scraper',
+            'schedule': crontab(hour=HOUR, minute=MINUTE)
+        },
+        'test-later': {
+            'task': 'scraper.test',
+            'schedule': crontab(hour=9, minute=00)
+        }
+    }
 
 
 class ProductionConfig(Config):
