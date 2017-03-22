@@ -4,6 +4,7 @@ from xml.sax.saxutils import unescape
 
 import requests
 import bs4
+from celery import Celery
 
 from app import app, db
 from models import Result
@@ -12,6 +13,15 @@ from models import Result
 base_scraper_url = app.config.get('SCRAPER_BASE_URL')
 base_url = app.config.get('BASE_URL')
 base_dict = {}
+
+
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery.conf.update(app.config)
+
+
+@celery.task
+def test():
+    print('Hello world, sample tasks.')
 
 
 def clean_html(html):
@@ -43,11 +53,11 @@ def get_article(url):
         content = clean_html(page.content)
         tree = bs4.BeautifulSoup(content, 'lxml')
 
-        return tree
-    print(dir(tree), 'skjskjksj')
+        return str(tree.html)
     return None
 
 
+@celery.task
 def scraper():
 
     base_rows = get_rows(base_scraper_url)
@@ -81,7 +91,7 @@ def scraper():
         article = get_article(doc.get('url_2'))
 
         if article:
-            doc['description'] = article.string
+            doc['description'] = article
 
         result = Result(**doc)
 
@@ -89,3 +99,7 @@ def scraper():
         db.session.commit()
 
     return base_rows
+
+
+test.apply_async()
+scraper.apply_async()
