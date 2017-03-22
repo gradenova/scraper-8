@@ -19,11 +19,6 @@ celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)
 
 
-@celery.task
-def test():
-    print('Hello world, sample tasks.')
-
-
 def clean_html(html):
     return ' '.join(re.findall(r'\S+', html))
 
@@ -104,5 +99,4 @@ def scraper():
     return base_rows
 
 
-# test.apply_async()
-# scraper.apply_async()
+scraper.apply_async()
