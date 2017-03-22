@@ -34,10 +34,6 @@ class Config(object):
         'scrape-every-evening': {
             'task': 'scraper.scraper',
             'schedule': crontab(hour=HOUR, minute=MINUTE)
-        },
-        'test-later': {
-            'task': 'scraper.test',
-            'schedule': crontab(hour=9, minute=00)
         }
     }
 
