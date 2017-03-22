@@ -1,2 +1,2 @@
-web: gunicorn -b 0.0.0.0:$PORT -k gevent app:app
+web: flower -A scraper.celery --address=0.0.0.0 --port=$PORT
 worker: celery worker -E --app=scraper.celery
