@@ -104,5 +104,5 @@ def scraper():
     return base_rows
 
 
-test.apply_async()
-scraper.apply_async()
+# test.apply_async()
+# scraper.apply_async()
