@@ -52,6 +52,12 @@ def get_article(url):
     return None
 
 
+def get_body(file):
+    bottom = (file.split('<!-- \bfsc!7010\b--> <!-- \bcat:70\b-->')).pop()
+
+    return (bottom.split('</div>'))[0]
+
+
 @celery.task
 def scraper():
 
@@ -89,14 +95,15 @@ def scraper():
 
         if article:
             try:
-                doc['description'] = article.html
+                doc['description'] = get_body(article.html)
 
                 result = Result(**doc)
 
                 db.session.add(result)
                 db.session.commit()
             except Exception as e:
-                doc['description'] = article.body.text
+                body = get_body(article.body)
+                doc['description'] = body.text
 
                 result = Result(**doc)
 
