@@ -48,7 +48,7 @@ def get_article(url):
         content = clean_html(page.content)
         tree = bs4.BeautifulSoup(content, 'lxml')
 
-        return tree.html
+        return tree
     return None
 
 
@@ -88,15 +88,28 @@ def scraper():
         article = get_article(doc.get('url_2'))
 
         if article:
-            doc['description'] = article
+            try:
+                doc['description'] = article.html
 
-        result = Result(**doc)
+                result = Result(**doc)
 
-        db.session.add(result)
-        db.session.commit()
+                db.session.add(result)
+                db.session.commit()
+            except Exception as e:
+                doc['description'] = article.body.text
+
+                result = Result(**doc)
+
+                db.session.add(result)
+                db.session.commit()
+            else:
+                result = Result(**doc)
+
+                db.session.add(result)
+                db.session.commit()
 
     print('Scraper completed execution')
-    return base_rows
+    return True
 
 
 scraper.apply_async()
