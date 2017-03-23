@@ -88,7 +88,7 @@ def scraper():
         article = get_article(doc.get('url_2'))
 
         if article:
-            doc['description'] = str(article)
+            doc['description'] = article
 
         result = Result(**doc)
 
