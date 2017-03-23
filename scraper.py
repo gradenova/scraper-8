@@ -48,14 +48,17 @@ def get_article(url):
         content = clean_html(page.content)
         tree = bs4.BeautifulSoup(content, 'lxml')
 
-        return tree
+        return tree.body
     return None
 
 
 def get_body(file):
-    bottom = (file.split('<!-- \bfsc!7010\b--> <!-- \bcat:70\b-->')).pop()
+    h4 = file.find('h4')
+    data = str(h4)
+    for sibling in h4.find_next_siblings():
+        data += str(sibling)
 
-    return (bottom.split('</div>'))[0]
+    return data
 
 
 @celery.task
@@ -95,15 +98,13 @@ def scraper():
 
         if article:
             try:
-                doc['description'] = get_body(article.html)
+                doc['description'] = get_body(article)
 
                 result = Result(**doc)
 
                 db.session.add(result)
                 db.session.commit()
             except Exception as e:
-                body = get_body(article.body)
-                doc['description'] = body.text
 
                 result = Result(**doc)
 
@@ -116,7 +117,7 @@ def scraper():
                 db.session.commit()
 
     print('Scraper completed execution')
-    return True
+    return article
 
 
 scraper.apply_async()
