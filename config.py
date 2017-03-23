@@ -33,7 +33,7 @@ class Config(object):
     CELERYBEAT_SCHEDULE = {
         'scrape-every-evening': {
             'task': 'scraper.scraper',
-            'schedule': crontab(hour=HOUR, minute=MINUTE)
+            'schedule': crontab(minute=10)
         }
     }
 
