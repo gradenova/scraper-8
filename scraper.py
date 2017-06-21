@@ -110,11 +110,6 @@ def scraper():
 
                 db.session.add(result)
                 db.session.commit()
-            else:
-                result = Result(**doc)
-
-                db.session.add(result)
-                db.session.commit()
 
     print('Scraper completed execution')
     return article
