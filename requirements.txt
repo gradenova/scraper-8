@@ -7,7 +7,7 @@ Babel==2.3.4
 backports.ssl-match-hostname==3.5.0.1
 beautifulsoup4==4.5.3
 billiard==3.5.0.2
-celery==4.0.2
+celery==5.2.2
 certifi==2017.1.23
 click==6.7
 croniter==0.3.16
